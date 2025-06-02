@@ -1,0 +1,16 @@
+{
+  "name": "com.rift.storyeditor",
+  "version": "1.0.0",
+  "displayName": "Rift Story Editor",
+  "description": "A simple story node editor for unity",
+  "unity": "2020.3",
+  "author": {
+    "name": "Hecate",
+    "email": "sakurahecate233@163.com",
+    "url": "https://github.com/HecateSakura"
+  },
+  "keywords": ["editor", "story", "productivity"],
+  "dependencies": {
+    "com.unity.nuget.newtonsoft-json": "3.0.1"
+  }
+}

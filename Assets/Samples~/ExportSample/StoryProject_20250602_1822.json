@@ -1,0 +1,33 @@
+{
+    "characterData": [],
+    "operationValues": [],
+    "storyNodes": [
+        {
+            "Guid": "069c927d-79c6-4cd7-85a6-cf0af088d6e4",
+            "Type": 0,
+            "CharacterID": null,
+            "DialogContent": null,
+            "Choices": null,
+            "StoryEvents": null,
+            "CustomData": null
+        },
+        {
+            "Guid": "24b3a396-3cc7-45d2-a510-8e49a4a0047d",
+            "Type": 0,
+            "CharacterID": null,
+            "DialogContent": null,
+            "Choices": null,
+            "StoryEvents": null,
+            "CustomData": null
+        },
+        {
+            "Guid": "e2d8c810-8880-417f-bd37-c924fc98b7ea",
+            "Type": 0,
+            "CharacterID": null,
+            "DialogContent": null,
+            "Choices": null,
+            "StoryEvents": null,
+            "CustomData": null
+        }
+    ]
+}
