@@ -13,11 +13,12 @@ namespace Rift.Story
         [SerializeField] public GraphData Graph;
         private bool _errorCheck => (_keys.Count == _values.Count)
                 && (_keys.Count == _data.Count);
-        public Dictionary<EGlobalVariablesType, string> GlobalVariablesPaths { get => GetGlobalVariablesPaths(); set => _globalVariablesPaths = value; }
+        public Dictionary<EGlobalVariablesType, string> GlobalVariablesPaths { get => GetGlobalVariablesPaths(); set => SetGlobalVariablesPaths(value); }
+
         private Dictionary<EGlobalVariablesType, string> _globalVariablesPaths;
-        [HideInInspector]
+        [SerializeField]
         private List<EGlobalVariablesType> _types;
-        [HideInInspector]
+        [SerializeField]
         private List<string> _paths;
         public Dictionary<Guid, StoryNodeData> Data => GetData();
         private Dictionary<Guid, StoryNodeData> _data;
@@ -115,12 +116,36 @@ namespace Rift.Story
                 return _globalVariablesPaths;
             }
         }
+        private void SetGlobalVariablesPaths(Dictionary<EGlobalVariablesType, string> value)
+        {
+            if(_types == null)
+            {
+                _types = new List<EGlobalVariablesType>();
+            }
+            if (_paths == null)
+            {
+                _paths = new List<string>();
+            }
+            _globalVariablesPaths = value;
+            foreach(var key in value.Keys)
+            {
+                _types.Add(key);
+            }
+            foreach (var val in value.Values)
+            {
+                _paths.Add(val);
+            }
+        }
         public void DebugLogAllData()
         {
             foreach (var data in _data)
             {
                 Debug.Log(data.ToString());
             }
+        }
+        public List<string> GetConnectedNodes(Guid guid, ENodeDirection direction)
+        {
+            return Graph.GetConnectedNodes(guid, direction);
         }
     }
 }

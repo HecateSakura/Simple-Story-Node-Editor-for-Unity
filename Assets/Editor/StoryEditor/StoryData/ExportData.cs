@@ -48,6 +48,8 @@ namespace Rift.Story
     public class SerializableStoryNodeData
     {
         public string Guid;
+        public List<string> ParentNodesGuid;
+        public List<string> ChildNodesGuid;
         public ENodeType Type;
         public string CharacterID;
         public string DialogContent;

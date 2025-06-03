@@ -112,37 +112,18 @@ namespace Rift.Story
         {
             ExportData exportData = new ExportData();
             // 收集角色数据
-            List<CharacterData> originalCharacter = _parentWindow.GetCharacterData();
-            List<SerializableCharacterData> serializableCharacter = new List<SerializableCharacterData>();
-            for (int i = 0; i < originalCharacter.Count; i++)
-            {
-                serializableCharacter.Add(
-                    new SerializableCharacterData()
-                    {
-                        CharacterID = originalCharacter[i].CharacterID.ToString(),
-                        CharacterName = originalCharacter[i].CharacterName,
-                        PortraitPath = AssetDatabase.GetAssetPath(originalCharacter[i].Portrait),
-                        AvatarPath = AssetDatabase.GetAssetPath(originalCharacter[i].Avatar)
-                    });
-            }
-            exportData.characterData = serializableCharacter;
+            PopulateCharacterData(exportData);
 
             // 收集操作值数据
-            List<OperationValueData> originalOperationValue = _parentWindow.GetOperationValues();
-            List<SerializableOperationValueData> serializableOperationValue = new List<SerializableOperationValueData>();
-            for (int i = 0; i < originalOperationValue.Count; i++)
-            {
-                serializableOperationValue.Add(
-                    new SerializableOperationValueData()
-                    {
-                        Guid = originalOperationValue[i].Guid.ToString(),
-                        ValueType = originalOperationValue[i].ValueType,
-                    });
-                serializableOperationValue[i].SetValue(originalOperationValue[i].GetValue());
-            }
-            exportData.operationValues = serializableOperationValue;
+            PopulateOperationValueData(exportData);
 
             // 收集故事节点数据
+            PopulateStoryNodesData(exportData);
+            return exportData;
+        }
+
+        private void PopulateStoryNodesData(ExportData exportData)
+        {
             Dictionary<Guid, StoryNodeData> originalStoryNodes = _parentWindow.GetStoryNodes();
             List<SerializableStoryNodeData> serializableNodeData = new List<SerializableStoryNodeData>();
             int index = 0;
@@ -155,6 +136,10 @@ namespace Rift.Story
                     Type = node.Type,
                     CustomData = node.CustomData,
                 });
+
+                Guid guid = new Guid(serializableNodeData[index].Guid);
+                serializableNodeData[index].ParentNodesGuid = _parentWindow.GetConnectedNodes(guid, ENodeDirection.Parent);
+                serializableNodeData[index].ChildNodesGuid = _parentWindow.GetConnectedNodes(guid, ENodeDirection.Child);
 
                 switch (node.Type)
                 {
@@ -172,8 +157,43 @@ namespace Rift.Story
                 index++;
             }
             exportData.storyNodes = serializableNodeData;
-            return exportData;
         }
+
+        private void PopulateOperationValueData(ExportData exportData)
+        {
+            List<OperationValueData> originalOperationValue = _parentWindow.GetOperationValues();
+            List<SerializableOperationValueData> serializableOperationValue = new List<SerializableOperationValueData>();
+            for (int i = 0; i < originalOperationValue.Count; i++)
+            {
+                serializableOperationValue.Add(
+                    new SerializableOperationValueData()
+                    {
+                        Guid = originalOperationValue[i].Guid.ToString(),
+                        ValueType = originalOperationValue[i].ValueType,
+                    });
+                serializableOperationValue[i].SetValue(originalOperationValue[i].GetValue());
+            }
+            exportData.operationValues = serializableOperationValue;
+        }
+
+        private void PopulateCharacterData(ExportData exportData)
+        {
+            List<CharacterData> originalCharacter = _parentWindow.GetCharacterData();
+            List<SerializableCharacterData> serializableCharacter = new List<SerializableCharacterData>();
+            for (int i = 0; i < originalCharacter.Count; i++)
+            {
+                serializableCharacter.Add(
+                    new SerializableCharacterData()
+                    {
+                        CharacterID = originalCharacter[i].CharacterID.ToString(),
+                        CharacterName = originalCharacter[i].CharacterName,
+                        PortraitPath = AssetDatabase.GetAssetPath(originalCharacter[i].Portrait),
+                        AvatarPath = AssetDatabase.GetAssetPath(originalCharacter[i].Avatar)
+                    });
+            }
+            exportData.characterData = serializableCharacter;
+        }
+
         private void PopulateEventData(SerializableStoryNodeData serializable, StoryNodeData originalData)
         {
             serializable.StoryEvents = new List<SerializableStoryEventData>();
@@ -187,6 +207,7 @@ namespace Rift.Story
                 });
             }
         }
+
         private void PopulateChoiceData(SerializableStoryNodeData serializable, StoryNodeData originalData)
         {
             serializable.Choices = new List<SerializableChoiceData>();

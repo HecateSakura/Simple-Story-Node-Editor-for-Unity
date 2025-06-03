@@ -346,6 +346,7 @@ namespace Rift.Story
         #region 导出相关
         private void OnExportProjectButtonClicked()
         {
+            SaveGraphData();
             ExportWindow.OpenWindow(this);
         }
 
@@ -382,6 +383,10 @@ namespace Rift.Story
         public Dictionary<Guid, StoryNodeData> GetStoryNodes()
         {
             return _data.Data;
+        }
+        public List<string> GetConnectedNodes(Guid guid, ENodeDirection direction)
+        {
+            return _data.GetConnectedNodes(guid, direction);
         }
         #endregion
     }

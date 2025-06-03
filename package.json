@@ -1,6 +1,6 @@
 {
   "name": "com.rift.storyeditor",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "displayName": "Rift Story Editor",
   "description": "A simple story node editor for unity",
   "unity": "2020.3",
