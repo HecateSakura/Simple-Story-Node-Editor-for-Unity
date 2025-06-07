@@ -145,7 +145,7 @@ namespace Rift.Story
                 {
                     case ENodeType.Dialog:
                         serializableNodeData[index].CharacterID = node.Character.CharacterID;
-                        serializableNodeData[index].DialogContent = node.DialogContent;
+                        serializableNodeData[index].DialogContents = node.DialogContents;
                         break;
                     case ENodeType.Event:
                         PopulateEventData(serializableNodeData[index], node);

@@ -30,7 +30,7 @@ namespace Rift.Story
             _descriptionProp = serializedObject.FindProperty("Description");
             _typeProp = serializedObject.FindProperty("Type");
             _characterProp = serializedObject.FindProperty("Character");
-            _dislogContentProp = serializedObject.FindProperty("DialogContent");
+            _dislogContentProp = serializedObject.FindProperty("DialogContents");
             _choicesContentProp = serializedObject.FindProperty("Choices");
             _customDataProp = serializedObject.FindProperty("CustomData");
             _eventsProp = serializedObject.FindProperty("StoryEvents");

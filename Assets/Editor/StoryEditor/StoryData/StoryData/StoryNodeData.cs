@@ -13,7 +13,7 @@ namespace Rift.Story
         [SerializeField] public ENodeType Type;
         #region Type == ENodeType.Dialog
         [SerializeField] public CharacterData Character;
-        [SerializeField] public string DialogContent;
+        [SerializeField] public List<string> DialogContents;
         #endregion
 
         #region Type == ENodeType.Choice

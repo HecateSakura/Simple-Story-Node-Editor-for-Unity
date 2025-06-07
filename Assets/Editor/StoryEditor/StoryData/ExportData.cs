@@ -52,7 +52,7 @@ namespace Rift.Story
         public List<string> ChildNodesGuid;
         public ENodeType Type;
         public string CharacterID;
-        public string DialogContent;
+        public List<string> DialogContents;
         public List<SerializableChoiceData> Choices;
         public List<SerializableStoryEventData> StoryEvents;
         public string CustomData;
