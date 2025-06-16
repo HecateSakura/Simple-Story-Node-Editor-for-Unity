@@ -31,4 +31,5 @@ Tools/Story Editor Window 可以打开剧情树初始化窗口，两个按钮选
 ## 导出窗口
 
 ![导出窗口](./images/ExportWindow.png "导出窗口")
+
 完成项目编辑后可在该页面对项目进行导出，勾选Base64加密压缩后会导出.story格式的二进制文件，不勾选默认输出json文件，可根据需要勾选。
