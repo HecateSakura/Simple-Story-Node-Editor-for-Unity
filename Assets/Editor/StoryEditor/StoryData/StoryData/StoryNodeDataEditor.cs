@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Rift.Story
 {
     [CustomEditor(typeof(StoryNodeData))]
-    public class StoryNodeDataEditor : Editor
+    public class StoryNodeDataEditor : UnityEditor.Editor
     {
         #region 基础属性
         private SerializedProperty _titleProp;

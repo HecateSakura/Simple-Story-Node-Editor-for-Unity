@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Rift.Story
 {
     [CustomEditor(typeof(OperationValueData))]
-    public class OperationValueDataEditor : Editor
+    public class OperationValueDataEditor : UnityEditor.Editor
     {
         private SerializedProperty _valueTypeProp;
         private SerializedProperty _intValueProp;
