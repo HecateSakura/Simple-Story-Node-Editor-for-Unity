@@ -54,6 +54,7 @@ namespace Rift.Story
         public string CharacterID;
         public List<string> DialogContents;
         public List<SerializableChoiceData> Choices;
+        public bool AutoSelect;
         public List<SerializableStoryEventData> StoryEvents;
         public string CustomData;
     }
@@ -63,6 +64,10 @@ namespace Rift.Story
     {
         public string ChoiceTitle;
         public string NavigateToNodeID;
+        public bool EnableCondition;
+        public string LeftOpValueGuid;
+        public string RightOpValueGuid;
+        public CompareType Compare;
     }
 
     [System.Serializable]

@@ -18,6 +18,7 @@ namespace Rift.Story
 
         #region Type == ENodeType.Choice
         [SerializeField] public List<ChoiceData> Choices;
+        [SerializeField] public bool AutoSelect;
         #endregion
 
         #region Type == ENodeType.Event

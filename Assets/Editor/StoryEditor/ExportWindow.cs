@@ -210,6 +210,8 @@ namespace Rift.Story
 
         private void PopulateChoiceData(SerializableStoryNodeData serializable, StoryNodeData originalData)
         {
+            int index = 0;
+            serializable.AutoSelect = originalData.AutoSelect;
             serializable.Choices = new List<SerializableChoiceData>();
             foreach (var choice in originalData.Choices)
             {
@@ -218,6 +220,16 @@ namespace Rift.Story
                     ChoiceTitle = choice.ChoiceTitle,
                     NavigateToNodeID = choice.NavigateToNode.Guid,
                 });
+
+                if(choice.EnableCondition)
+                {
+                    serializable.Choices[index].EnableCondition = true;
+                    serializable.Choices[index].Compare = choice.Condition.CompareType;
+                    serializable.Choices[index].LeftOpValueGuid = choice.Condition.LeftValue.Guid;
+                    serializable.Choices[index].RightOpValueGuid = choice.Condition.RightValue.Guid;
+                }
+
+                index++;
             }
         }
     }

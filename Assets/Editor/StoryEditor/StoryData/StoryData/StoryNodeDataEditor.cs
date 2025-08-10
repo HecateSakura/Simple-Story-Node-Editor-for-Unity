@@ -17,6 +17,7 @@ namespace Rift.Story
         #endregion
         #region 选项属性
         private SerializedProperty _choicesContentProp;
+        private SerializedProperty _autoSelectProp;
         #endregion
         #region 事件属性
         private SerializedProperty _eventsProp;
@@ -32,6 +33,7 @@ namespace Rift.Story
             _characterProp = serializedObject.FindProperty("Character");
             _dislogContentProp = serializedObject.FindProperty("DialogContents");
             _choicesContentProp = serializedObject.FindProperty("Choices");
+            _autoSelectProp = serializedObject.FindProperty("AutoSelect");
             _customDataProp = serializedObject.FindProperty("CustomData");
             _eventsProp = serializedObject.FindProperty("StoryEvents");
         }
@@ -74,7 +76,94 @@ namespace Rift.Story
         }
         private void DrawChoicesProps()
         {
-            EditorGUILayout.PropertyField(_choicesContentProp, new GUIContent("选项列表"));
+            // 绘制自动选择属性
+            EditorGUILayout.PropertyField(_autoSelectProp, new GUIContent("是否自动选择"));
+
+            // 展开选项列表
+            _choicesContentProp.isExpanded = EditorGUILayout.Foldout(_choicesContentProp.isExpanded, "选项列表");
+            if (!_choicesContentProp.isExpanded) return;
+
+            EditorGUI.indentLevel++;
+            for (int i = 0; i < _choicesContentProp.arraySize; i++)
+            {
+                SerializedProperty choiceProp = _choicesContentProp.GetArrayElementAtIndex(i);
+                SerializedProperty conditionProp = choiceProp.FindPropertyRelative("Condition");
+
+                EditorGUILayout.BeginVertical("box");
+                EditorGUILayout.PropertyField(choiceProp.FindPropertyRelative("ChoiceTitle"), new GUIContent("选项标题"));
+                EditorGUILayout.PropertyField(choiceProp.FindPropertyRelative("ChoiceDescription"), new GUIContent("选项描述"));
+                EditorGUILayout.PropertyField(choiceProp.FindPropertyRelative("NavigateToNode"), new GUIContent("跳转节点"));
+                EditorGUILayout.PropertyField(choiceProp.FindPropertyRelative("EnableCondition"), new GUIContent("启用条件"));
+
+                if(choiceProp.FindPropertyRelative("EnableCondition").boolValue)
+                {
+                    // 绘制条件属性
+                    DrawConditionalProps(conditionProp);
+                }
+
+                EditorGUILayout.EndVertical();
+            }
+
+            // 添加/移除选项按钮
+            EditorGUILayout.BeginHorizontal();
+            if (GUILayout.Button("添加选项"))
+            {
+                _choicesContentProp.arraySize++;
+            }
+            if (GUILayout.Button("移除选项"))
+            {
+                if (_choicesContentProp.arraySize > 0)
+                {
+                    _choicesContentProp.arraySize--;
+                }
+            }
+            EditorGUILayout.EndHorizontal();
+            EditorGUI.indentLevel--;
+        }
+
+        // 绘制条件属性
+        private void DrawConditionalProps(SerializedProperty conditionProp)
+        {
+            SerializedProperty leftValueProp = conditionProp.FindPropertyRelative("LeftValue");
+            SerializedProperty rightValueProp = conditionProp.FindPropertyRelative("RightValue");
+            SerializedProperty compareTypeProp = conditionProp.FindPropertyRelative("CompareType");
+
+            EditorGUILayout.LabelField("条件设置", EditorStyles.boldLabel);
+            EditorGUI.indentLevel++;
+
+            // 绘制左右值
+            EditorGUILayout.PropertyField(leftValueProp, new GUIContent("左值"));
+            EditorGUILayout.PropertyField(rightValueProp, new GUIContent("右值"));
+
+            // 获取值类型
+            ValueType? leftType = GetValueType(leftValueProp);
+            ValueType? rightType = GetValueType(rightValueProp);
+
+            // 类型检查
+            if (leftType != null && rightType != null && leftType != rightType)
+            {
+                EditorGUILayout.HelpBox(
+                    $"类型警告: 左值类型({leftType})与右值类型({rightType})不一致!",
+                    MessageType.Warning
+                );
+            }
+
+            // 根据值类型限制比较运算符
+            if (leftType == ValueType.Boolean || rightType == ValueType.Boolean)
+            {
+                EditorGUILayout.HelpBox(
+                    "当ValueType为Boolean时，选择Equal和NotEqual以外的比较类型可能会导致程序错误",
+                    MessageType.Info
+                );
+                EditorGUILayout.PropertyField(compareTypeProp, new GUIContent("比较类型"));
+            }
+            else
+            {
+                // 其他类型显示全部比较运算符
+                EditorGUILayout.PropertyField(compareTypeProp, new GUIContent("比较类型"));
+            }
+
+            EditorGUI.indentLevel--;
         }
         private void DrawEventsProps()
         {

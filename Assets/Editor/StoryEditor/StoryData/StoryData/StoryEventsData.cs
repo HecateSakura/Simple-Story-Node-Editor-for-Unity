@@ -5,11 +5,10 @@ namespace Rift.Story
 {
     public enum EOperationModifyType
     {
-        None = 0,
-        Plus = 1,
-        Subtruct = 2,
-        Cross = 3,
-        Divide = 4
+        Plus = 0,
+        Subtruct = 1,
+        Cross = 2,
+        Divide = 3
     }
     [Serializable]
     public struct StoryEventsData
