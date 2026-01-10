@@ -144,8 +144,7 @@ namespace Rift.Story
                 switch (node.Type)
                 {
                     case ENodeType.Dialog:
-                        serializableNodeData[index].CharacterID = node.Character.CharacterID;
-                        serializableNodeData[index].DialogContents = node.DialogContents;
+                        PopulateDialogData(serializableNodeData, index, node);
                         break;
                     case ENodeType.Event:
                         PopulateEventData(serializableNodeData[index], node);
@@ -157,6 +156,16 @@ namespace Rift.Story
                 index++;
             }
             exportData.storyNodes = serializableNodeData;
+        }
+
+        private static void PopulateDialogData(List<SerializableStoryNodeData> serializableNodeData, int index, StoryNodeData node)
+        {
+#if RIFT_ENABLE_ECHO
+            serializableNodeData[index].DialogData = node.DialogData;
+#else
+            serializableNodeData[index].CharacterID = node.Character.CharacterID;
+            serializableNodeData[index].DialogContents = node.DialogContents;
+#endif
         }
 
         private void PopulateOperationValueData(ExportData exportData)

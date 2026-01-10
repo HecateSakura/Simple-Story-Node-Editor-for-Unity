@@ -1,5 +1,8 @@
 ﻿#if UNITY_EDITOR
 using System.Collections.Generic;
+#if RIFT_ENABLE_ECHO
+using Rift.Echo.Story;
+#endif
 namespace Rift.Story
 {
     [System.Serializable]
@@ -51,14 +54,22 @@ namespace Rift.Story
         public List<string> ParentNodesGuid;
         public List<string> ChildNodesGuid;
         public ENodeType Type;
+#if RIFT_ENABLE_ECHO
+        public StoryDataSO DialogData;
+#else
         public string CharacterID;
         public List<string> DialogContents;
+#endif
         public List<SerializableChoiceData> Choices;
         public bool AutoSelect;
         public List<SerializableStoryEventData> StoryEvents;
         public string CustomData;
     }
+    [System.Serializable]
+    public class SerializableStoryData
+    {
 
+    }
     [System.Serializable]
     public class SerializableChoiceData
     {

@@ -12,8 +12,13 @@ namespace Rift.Story
         private SerializedProperty _typeProp;
         #endregion
         #region 对话属性
+
+#if RIFT_ENABLE_ECHO
+        private SerializedProperty _dislogDataProp;
+#else
         private SerializedProperty _characterProp;
         private SerializedProperty _dislogContentProp;
+#endif
         #endregion
         #region 选项属性
         private SerializedProperty _choicesContentProp;
@@ -30,8 +35,13 @@ namespace Rift.Story
             _titleProp = serializedObject.FindProperty("Title");
             _descriptionProp = serializedObject.FindProperty("Description");
             _typeProp = serializedObject.FindProperty("Type");
+
+#if RIFT_ENABLE_ECHO
+            _dislogDataProp = serializedObject.FindProperty("DialogData");
+#else
             _characterProp = serializedObject.FindProperty("Character");
             _dislogContentProp = serializedObject.FindProperty("DialogContents");
+#endif
             _choicesContentProp = serializedObject.FindProperty("Choices");
             _autoSelectProp = serializedObject.FindProperty("AutoSelect");
             _customDataProp = serializedObject.FindProperty("CustomData");
@@ -71,8 +81,13 @@ namespace Rift.Story
         }
         private void DrawDialogProps()
         {
+
+#if RIFT_ENABLE_ECHO
+            EditorGUILayout.PropertyField(_dislogDataProp, new GUIContent("对话数据"));
+#else
             EditorGUILayout.PropertyField(_characterProp, new GUIContent("角色信息"));
             EditorGUILayout.PropertyField(_dislogContentProp, new GUIContent("对话内容"));
+#endif
         }
         private void DrawChoicesProps()
         {

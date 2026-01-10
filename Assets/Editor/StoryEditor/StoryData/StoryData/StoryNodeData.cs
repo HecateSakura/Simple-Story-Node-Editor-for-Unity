@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Rift.Echo.Story;
 namespace Rift.Story
 {
     [Serializable]
@@ -12,8 +13,12 @@ namespace Rift.Story
         [SerializeField] public string Description;
         [SerializeField] public ENodeType Type;
         #region Type == ENodeType.Dialog
+#if RIFT_ENABLE_ECHO
+        [SerializeField] public StoryDataSO DialogData;
+#else
         [SerializeField] public CharacterData Character;
         [SerializeField] public List<string> DialogContents;
+#endif
         #endregion
 
         #region Type == ENodeType.Choice
