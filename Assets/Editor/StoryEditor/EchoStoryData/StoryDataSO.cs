@@ -1,5 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
+using Rift.Story;
+
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -61,6 +63,18 @@ namespace Rift.Echo.Story
 
         #region 编辑器工具方法
 #if UNITY_EDITOR
+        public void RefreshCharacterInfo()
+        {
+            for(int i = 0; i < dialogueEntries.Count;i ++)
+            {
+                if(dialogueEntries[i].GetCharacter() == null)
+                {
+                    continue;
+                }
+                dialogueEntries[i].speakerId = dialogueEntries[i].GetCharacter().CharacterID;
+                dialogueEntries[i].speakerName = dialogueEntries[i].GetCharacter().CharacterName;
+            }
+        }
         public void SaveToJsonFile()
         {
             string path = EditorUtility.SaveFilePanel(

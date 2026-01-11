@@ -96,6 +96,11 @@ namespace Rift.Echo.Story
 
         // ÔªÊý¾Ý
         public Dictionary<string, string> metadata = new Dictionary<string, string>();
+
+        public CharacterData GetCharacter()
+        {
+            return character;
+        }
     }
 
     [Serializable]
