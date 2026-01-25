@@ -28,9 +28,6 @@ namespace Rift.Echo.Story
         [Header("对话序列")]
         public List<DialogueEntry> dialogueEntries = new List<DialogueEntry>();
 
-        [Header("元数据")]
-        public StoryMetadata metadata = new StoryMetadata();
-
         #region 序列化/反序列化方法
         public string ToJson(bool prettyPrint = true)
         {
